@@ -2,16 +2,20 @@
 const express = require('express');
 const { dirname } = require('path');
 const path = require("path")
+const fs = require("fs")
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
-const notes = require('./db/db.json');
+// let notes = JSON.parse(fs.readFileSync("db/db.json", "utf8"))
+// let notes = ""
+
 const { allowedNodeEnvironmentFlags } = require('process');
 
 //put in every server file you write, allows for user input to work?
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
+app.use(express.static ('public'))
 
 
 app.get('/', (req, res) => {
@@ -22,20 +26,23 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, './public/notes.html'));
 });
 
-app.get('/assets/css/styles.css', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/assets/css/styles.css'));
-});
+// app.get('/api/notes', (req, res) => {
+//     res.sendFile(path.join(__dirname, './db/db.json'));
+// });
 
-app.get('/assets/js/index.js', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/assets/js/index.js'));
-});
-
+//Same thing as above????
 app.get('/api/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, './db/db.json'));
+    var data = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+    res.json(data);
 });
 
-app.get('/api/notes', (req, res) => {
-    notes.push(req.body)
+app.post('/api/notes', (req, res) => {
+    var allNotes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8')) 
+    var newNote = req.body;
+    allNotes.push(newNote);
+    fs.writeFileSync('./db/db.json', JSON.stringify(allNotes));
+    console.log('new note saved')
+    res.json(allNotes);
 });
 
 
