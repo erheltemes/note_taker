@@ -60,24 +60,4 @@ app.delete('/api/notes/:id', (req, res) => {
 
 })
 
-// app.get('/add/characters/all', (req, res) => {
-//     res.json(characters);
-// });
-
-// app.post('/api/characters'), (req,res) => {
-//     characters.push(req.body)
-//     res.json(req.body)
-// }
-
-// app.get('/api/characters/:character', (req, res) => {
-//     const obj = characters.filter( char => char.routeName === req.params.character)[0]
-
-//     if (obj === undefined) {
-//         res.send("yousa clumsy")
-//     } else {
-//         res.json(obj)
-//     }
-// });
-
-
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
