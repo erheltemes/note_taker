@@ -10,6 +10,7 @@ var pattern = 'aA0'
 var idGen = randomId(len, pattern)
 
 const app = express();
+//allows for heroku or local
 const PORT = process.env.PORT || 8080;
 
 // let notes = JSON.parse(fs.readFileSync("db/db.json", "utf8"))
